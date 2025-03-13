@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Blog</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+        
+        .container1 {
+            max-width: 800px;
+            margin: auto;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+        }
+        
+        .container1 img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .blog-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .form-control {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        .form-control:focus {
+            background-color: #666;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        .comment-section {
+            padding: 20px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .comment-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .comment-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .comment-text {
+            padding: 10px;
+            background-color: #666;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Animation for loading */
+        .animate-load {
+            animation: load 0.5s forwards;
+        }
+        
+        @keyframes load {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+    
+    <div class="container mt-4 animate-load">
+        <h1><%= blog.title %></h1>
+        <img src="<%= blog.coverImageURL %>" alt="" class="blog-image">
+        <div class="blog-content mt-4"> <%= blog.body %></div>
+    </div>
+
+    <div class="container1 mt-4 animate-load">
+        <img src="<%= blog.createdBy.profileImageURL %>" alt="" width="100px"> <%= blog.createdBy.fullName %>
+    </div>
+
+    <div class="container mt-3 animate-load">
+        <h1>Comments (<%= comments.length %>)</h1>
+        <% if (locals.user) { %>
+            <form action="/blog/comment/<%= blog._id %>" method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="content" placeholder="Enter your Comment">
+                    <button type="submit" class="btn btn-sm btn-primary mt-3">Add</button>
+                </div>
+            </form>
+        <% } %>
+
+        <div class="comment-section">
+            <% comments.forEach(comment => { %>
+             <div class="comment-author">
+                <img src="<%= comment.createdBy.profileImageURL %>" alt="" width="50px"> <%= comment.createdBy.fullName %>
+             </div>
+             <div class="comment-text">
+                <pre><%= comment.content %></pre>
+             </div>
+            <% }) %>
+        </div>
+    </div>
+    <%- include('./partials/scripts') %>
+</body>
+</html>

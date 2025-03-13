@@ -1,0 +1,71 @@
+const PORT = 8000; hum ye krte hai but 
+#jab hum project deploy krenge to zruri nahi ki 8000 port available ho user ke system mai isilye hum environment variables ka use karte hai 
+
+#Partials -> component of styles ( so that use br br na likhna pde )
+
+1. What is Hashing?
+Hashing is the process of converting an input (e.g., a password) into a fixed-length string of characters, using a cryptographic algorithm. The resulting hash is irreversible, meaning you cannot derive the original password from it.
+
+Why Use Hashing?
+If an attacker gains access to the database, the actual passwords are not stored, only their hashed versions.
+Even if a hash is exposed, it cannot be reversed to retrieve the password.
+
+2. What is Salt?
+A salt is a random string added to the password before it is hashed.
+
+Purpose of Salting:
+Prevent Rainbow Table Attacks:
+A rainbow table is a precomputed table of hashes for common passwords. Salting makes each password hash unique, so precomputed tables become useless.
+Enhance Security:
+Even if two users have the same password, their hashes will be different because they are salted with unique values.
+
+3. How Does It Work?
+Here’s the process of hashing with a salt:
+
+User enters a password:
+Example: "password123"
+
+Generate a Salt:
+Example: "random_salt_1a2b3c"
+
+Combine Password + Salt:
+"password123random_salt_1a2b3c"
+
+Hash the Combination:
+Hashing the combined string produces a secure, fixed-length output.
+Example: SHA-256("password123random_salt_1a2b3c") -> "2c26b46b68ffc68ff99b453c1d304134"
+
+Store the Hash and the Salt:
+Save both the salt and the resulting hash in the database.
+
+4. Verifying a Password:
+When a user logs in, their entered password is combined with the stored salt.
+The combined string is hashed.
+The resulting hash is compared to the stored hash.
+
+enum: ['USER', 'ADMIN'], enum mtlb iske alava koi aur value assign krenge to mongoose ek error throw krega
+
+
+
+jab bi user ko save kroge usse pehle ye karna hai 
+userSchema.pre("save", function (next) {
+    const user = this;
+
+    if(!user.isModified("password")) return;
+    
+})
+const {createHmac, randomBytes} = require("crypto"); crypto is a built in package which is used for hashing
+
+953e6133af0a2f31ec0a5e5c78596fe33d250b1f2bb6b4bbe05739bf1fd61bff--> ye password purane password m conver nahi hoga coz humne hashing kiya hua hai 
+
+#AB JAB USER LOGIN KREGA TO HUME USKA PASSWORD CHECK KRNA HAI TO USKE LIYE HUM SALT KO HASH KRENGE AND HASHED PASSWORD KO PURANE HASHED PASSWORD SE MATCH KRENGE!!!
+router.post("/signin", async (req, res) => {
+    const {email, password} = req.body;
+})
+isme hume pehle user ko email se find krna hoga then uske salt ko use krke iss particular password ko bi hash krna hoga and then iss hashed password ko database m stored hashed password se match krna hoga 
+
+#By default express hume koi bi static asset ko nahi deti so express ko btana pdega ki public ko statically use kr skte ho 
+app.use(express.static(path.resolve("./public")));
+
+locals.user ye islye krte hai coz agr backend se koi user naam ka variable send nahi hua to error ayega rendering m 
+locals.user krne se error nahi ayega even if user naam ka variable na bhejein
